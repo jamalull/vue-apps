@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="productCard">
       <img :src="dataWomen[index].image" :alt="dataWomen[index].title">
       <div class="productDetail">
@@ -10,6 +10,7 @@
         </div>
         <hr>
         <p class="description">
+          <!-- {{ dataWomen[index].description.substring(0,250) }}... -->
           {{ dataWomen[index].description }}
         </p>
         <hr>
@@ -22,11 +23,11 @@
     </div>
   </div>
   <div>
-    <br> <br>
-    {{ dataWomen[index] }} <br> <br>
-    <h1>Index Product ke : {{ index }}</h1>
-  </div> <br> <br>
-  <button @click="nextProduct">NEXT PRODUCT</button>
+    <!-- <br> <br>
+    {{ dataWomen[index] }} <br> <br> -->
+    <!-- <h1>Index Product ke : {{ index }}</h1> -->
+  </div>
+  <!-- <button @click="nextProduct">NEXT PRODUCT</button> -->
 </template>
 
 <script setup lang="ts">
@@ -73,9 +74,24 @@
 </script>
   
 <style>
+  .container {
+    padding: 50px;
+    width: 90%;
+    height: 600px;
+    margin: 0 auto;
+    border-radius: 0.45em;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+  }
   .productCard{
+    /* align-items: center; */
+    width: 98%;
     display: flex;
     gap: 50px;
+    padding-top: 100px;
+    /* justify-content: center; */
   }
   .productCard img {
     width: 315px;
@@ -83,12 +99,16 @@
   }
 
   .productDetail{
+    width: 800px;
     text-align: left;
   }
   .productDetail .category{
     display: flex;
     justify-content: space-between;
   }
+  /* .description{
+    width: 400px;
+  } */
 
   .btn {
     display: flex;
