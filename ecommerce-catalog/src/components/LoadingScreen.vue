@@ -13,17 +13,17 @@
 
       <div class="category">
         <!-- <p>{{ dataWomen[index]?.category }}</p> -->
-        <p>Category</p>
+        <!-- <p>Category</p> -->
         <div class="testimonies">
           <ul>
             <!-- <li v-for="star in (Math.floor(dataWomen[index].rating.rate))" :key="star"> -->
           
           </ul>
           <!-- <p>{{ dataWomen[index]?.rating.rate }}/5</p> -->
-          <p>4.7/5</p>
+          <!-- <p>4.7/5</p> -->
           <span>
-            <img src="/reviews.png" alt="">
-            <!-- <p>{{ dataWomen[index]?.rating.count }}</p> --> 222
+            <!-- <img src="/reviews.png" alt=""> -->
+            <!-- <p>{{ dataWomen[index]?.rating.count }}</p> --> 
           </span>
         </div>
       </div>
@@ -37,7 +37,8 @@
       <!-- <h2>${{ dataWomen[index]?.price }}</h2> -->
       <div class="price"></div>
       <div class="btn">
-        <!-- <button class="buyNow"  @click="prevProduct">Buy Now</button> -->
+        
+        <p></p>
         <button class="buyNow">Buy Now</button>
         <button class="share">
           <svg
@@ -66,6 +67,7 @@
     width: 100%;
     display: flex;
     gap: 50px;
+    margin: 0 20px;
   }
   .productCard .img{
     width: 35%;
@@ -73,7 +75,7 @@
     /* height: 400px;  */
   }
   .productCard .img div{
-    background-color: #938d8d;
+    background-color: #d5e3e560;
     width: 320px;
     height: 400px; 
   }
@@ -86,7 +88,7 @@
   .productDetail .category{
     width: 100%;
     margin-top: 5px;
-    background-color: #938d8d;
+    background-color: #d5e3e560;
     display: flex;
     justify-content: space-between;
   }
@@ -112,18 +114,18 @@
     margin-left: 10px;
   }
   .productDetail .title{
-    background-color: #938d8d;
+    background-color: #d5e3e560;
     /* width: 100%; */
     height: 40px;
   }
   .description{
-    background-color: #938d8d;
+    background-color: #d5e3e560;
     width: 95%;
     height: 110px;
     overflow: hidden;
   }
   .price{
-    background-color: #938d8d;
+    background-color: #d5e3e560;
     width: 20%;
     height: 40px;
     margin-bottom: 10px;
@@ -132,6 +134,9 @@
   .btn {
     display: flex;
     gap: 20px;
+    /* background-color: #d5e3e560;
+    width: 50%;
+    height: 40px; */
   }
   .btn .buyNow {
     width: 300px;
