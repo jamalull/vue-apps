@@ -1,3 +1,4 @@
+
 <template>
   <div class="container">
     <div class="btn-left">
@@ -11,43 +12,53 @@
       </button>
     </div>
 
-    <div class="productCard">
+    <template v-if="!isLoading && !dataProduct[index].category.includes('clothing')">
+      <unvailable-product/>
+    </template>
+
+    <template v-if="isLoading">
+      <!-- <center> <h4>Please, Waiting until loading finished!</h4></center> -->
+      <loading-screen/>
+    </template>
+
+    <div v-if="!isLoading && dataProduct[index].category.includes('clothing')" class="productCard">
 
       <div class="img">
-        <img :src="dataWomen[index]?.image" :alt="dataWomen[index]?.title">
+        <img :src="dataProduct[index]?.image" :alt="dataProduct[index]?.title">
       </div>
 
       <div class="productDetail">
 
-        <h2 class="title">{{ dataWomen[index]?.title }}</h2>
+        <h2 class="title">{{ dataProduct[index]?.title }}</h2>
 
         <div class="category">
-          <p>{{ dataWomen[index]?.category }}</p>
+          <p>{{ dataProduct[index]?.category }}</p>
           <div class="testimonies">
             <ul>
-              <!-- <li v-for="star in (Math.floor(dataWomen[index].rating.rate))" :key="star"> -->
+              <!-- <li v-for="star in (Math.floor(dataProduct[index].rating.rate))" :key="star"> -->
             
-              <li v-for="star in starsFilled()" :key="star">
-                <img src="../../public/star_filled.png" alt="star-image">
+              <li v-for="star in starsFilled" :key="star">
+                <img src="/star_filled.png" alt="star-image">
               </li>
-              <li v-if="dataWomen[index]?.rating.rate < 5" v-for="star in starsEmpty()" :key="star">
-                <img src="../../public/start_empty.png" alt="star-image-empty">
+              <!-- <li v-if="dataProduct[index].rating.rate < 5" v-for="star in starsEmpty()" :key="star"> -->
+              <li v-for="star in starsEmpty" :key="star">
+                <img src="/start_empty.png" alt="star-image-empty">
               </li>
             </ul>
-            <p>{{ dataWomen[index]?.rating.rate }}/5</p>
+            <p>{{ dataProduct[index]?.rating.rate }}/5</p>
             <span>
-              <img src="../../public/reviews.png" alt="">
-              <p>{{ dataWomen[index]?.rating.count }}</p>
+              <img src="/reviews.png" alt="">
+              <p>{{ dataProduct[index]?.rating.count }}</p>
             </span>
           </div>
         </div>
         <hr>
         <p class="description">
-          <!-- {{ dataWomen[index].description.substring(0,250) }}... -->
-          {{ dataWomen[index]?.description }}
+          <!-- {{ dataProduct[index].description.substring(0,250) }}... -->
+          {{ dataProduct[index]?.description }}
         </p>
         <hr>
-        <h2>${{ dataWomen[index]?.price }}</h2>
+        <h2>${{ dataProduct[index]?.price }}</h2>
         <div class="btn">
           <!-- <button class="buyNow"  @click="prevProduct">Buy Now</button> -->
           <button class="buyNow">Buy Now</button>
@@ -86,9 +97,11 @@
 </template>
 
 <script setup lang="ts">
-  import {onMounted, ref} from 'vue';
+  import {onMounted, ref, computed} from 'vue';
+  import LoadingScreen from './LoadingScreen.vue';
+  import UnvailableProduct from './UnvailableProduct.vue';
 
-  interface Women{
+  interface Product{
     id:number,
     title: string,
     description: string,
@@ -101,56 +114,68 @@
     category: string
   }
   
-  const dataWomen = ref<Women[]>([]);
+  const dataProduct = ref<Product[]>([]);
   const index = ref<number>(0);
+  const isLoading = ref<boolean>(true);
 
-  const getWomenClothing = async () => {
-    const api = await fetch("https://fakestoreapi.com/products/category/women's clothing");
+  const getDataClothing = async () => {
+    const api = await fetch("https://fakestoreapi.com/products/");
     const response = await api.json();
+    // isLoading.value = false;
     return response;
   }
 
-  getWomenClothing().then((res) =>{ 
+  getDataClothing().then((res) =>{ 
         console.log(res)
-        dataWomen.value = res;
+        dataProduct.value = res;
     })
 
   const nextProduct = () => {
-    index.value++;
-    if(index.value > dataWomen.value.length - 1){
-      index.value = 0;
-    }
+    isLoading.value = true;
+    setTimeout(() => {
+      index.value++;
+      if(index.value > dataProduct.value.length - 1){
+        index.value = 0;
+      }
+      isLoading.value = false;
+    }, 1000)
   }
 
   const prevProduct = () => {
-    index.value--;
-    if(index.value < 0){
-      index.value = dataWomen.value.length - 1;
-    }
+    isLoading.value = true;
+    setTimeout(() => {
+      index.value--;
+      if(index.value < 0){
+        index.value = dataProduct.value.length - 1;
+      }
+      isLoading.value = false;
+    }, 1000)
   }
 
-  // const data = reactive(dataWomen.value[index.value].rating)
+  // const data = reactive(dataProduct.value[index.value].rating)
   // console.log(data)
 
   // const starsFilled = computed(() =>{
-  //   return Math.floor(dataWomen.value[index.value].rating?.rate);
+  //   return Math.floor(dataProduct.value[index.value].rating?.rate);
   // })
 
-  const starsFilled = () =>{
-    return Math.floor(dataWomen.value[index.value].rating.rate);
-  }
+  const starsFilled = computed(() =>{
+    return Math.floor(dataProduct.value[index.value].rating.rate);
+  })
 
-  const starsEmpty = () =>{
-    return 5 - Math.floor(dataWomen.value[index.value].rating.rate);
-  }
+  const starsEmpty = computed(() =>{
+    if(Math.floor(dataProduct.value[index.value].rating.rate) < 5){
+      return 5 - Math.floor(dataProduct.value[index.value].rating.rate);
+    }
+  })
 
   onMounted(() => {
-      getWomenClothing();
+    getDataClothing();
   })
 
 </script>
   
-<style>
+<style scoped>
   .container {
     display: flex;
     align-items: center;
