@@ -1,5 +1,6 @@
 
 <template>
+  <div class="men-bg"></div>
   <div class="container">
     <div class="btn-left">
       <button @click="prevProduct">
@@ -17,13 +18,12 @@
     </template>
 
     <template v-if="isLoading">
-      <!-- <center> <h4>Please, Waiting until loading finished!</h4></center> -->
       <loading-screen/>
     </template>
 
     <div v-if="!isLoading && dataProduct[index].category.includes('clothing')" class="productCard">
 
-      <div class="img">
+      <div class="imgProduct">
         <img :src="dataProduct[index]?.image" :alt="dataProduct[index]?.title">
       </div>
 
@@ -152,13 +152,6 @@
     }, 1000)
   }
 
-  // const data = reactive(dataProduct.value[index.value].rating)
-  // console.log(data)
-
-  // const starsFilled = computed(() =>{
-  //   return Math.floor(dataProduct.value[index.value].rating?.rate);
-  // })
-
   const starsFilled = computed(() =>{
     return Math.floor(dataProduct.value[index.value].rating.rate);
   })
@@ -180,7 +173,6 @@
     display: flex;
     align-items: center;
     padding: 20px 30px;
-    width: 95%;
     height: 500px;
     margin: 0 auto;
     border-radius: 0.45em;
@@ -188,25 +180,37 @@
     0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
     0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12);
-    position: relative;
+    background-color: #fff;
   }
+  .men-bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50vh;
+  background-color: aquamarine;
+  z-index: -99;
+}
   .productCard{
     justify-content: center;
     align-items: center;
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     gap: 50px;
   }
   .productCard .img{
-    width: 35%;
+    text-align: center;
+    width: 30%;
   }
-  .productCard img{
+  .productCard .imgProduct img{
     width: 320px;
     height: 400px; 
   }
 
   .productDetail{
-    width: 65%;
+    width: 60%;
     height: 460px;
     text-align: left;
   }
@@ -254,5 +258,22 @@
   }
   .btn .share {
     width: 80px;
+  }
+
+  @media screen and (max-width: 1024px) {
+
+    .container{
+      height: fit-content;
+    }
+    .productCard{
+      display: flex;
+      flex-direction: column;
+    }
+    .productCard .imgProduct{
+      width: 250px;
+    }
+    .btn-left, .btn-right{
+      display: none;
+    }
   }
 </style>
