@@ -119,14 +119,18 @@ const background = ref<string>("");
 const getDataClothing = async () => {
   const api = await fetch("https://fakestoreapi.com/products/");
   const response = await api.json();
+  dataProduct.value = await response;
+
+  stars();
+  setBackground();
   isLoading.value = false;
-  return response;
+  // return response;
 };
 
-getDataClothing().then((res) => {
-  console.log(res);
-  dataProduct.value = res;
-});
+// getDataClothing().then((res) => {
+//   console.log(res);
+//   dataProduct.value = res;
+// });
 
 const nextProduct = () => {
   isLoading.value = true;
