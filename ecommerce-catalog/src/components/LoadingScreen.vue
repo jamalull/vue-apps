@@ -7,38 +7,21 @@
 
     <div class="productDetail">
 
-      <!-- <h2 class="title">{{ dataWomen[index]?.title }}</h2> -->
-      <!-- <h2 class="title">Title</h2> -->
       <div class="title"></div>
 
       <div class="category">
-        <!-- <p>{{ dataWomen[index]?.category }}</p> -->
-        <!-- <p>Category</p> -->
+        
         <div class="testimonies">
-          <ul>
-            <!-- <li v-for="star in (Math.floor(dataWomen[index].rating.rate))" :key="star"> -->
-          
-          </ul>
-          <!-- <p>{{ dataWomen[index]?.rating.rate }}/5</p> -->
-          <!-- <p>4.7/5</p> -->
-          <span>
-            <!-- <img src="/reviews.png" alt=""> -->
-            <!-- <p>{{ dataWomen[index]?.rating.count }}</p> --> 
-          </span>
+          <span></span>
         </div>
       </div>
       <hr>
-      <p class="description">
-        <!-- {{ dataWomen[index].description.substring(0,250) }}... -->
-        <!-- {{ dataWomen[index]?.description }} -->
-        
-      </p>
+      <p class="description"></p>
       <hr>
-      <!-- <h2>${{ dataWomen[index]?.price }}</h2> -->
       <div class="price"></div>
       <div class="btn">
-        
-        <p></p>
+        <div class="btn-skeleton1"></div>
+        <div class="btn-skeleton2"></div>
         <button class="buyNow">Buy Now</button>
         <button class="share">
           <svg
@@ -56,8 +39,6 @@
 </template>
 
 <script setup lang="ts">
-  
-
 </script>
 
 <style scoped>
@@ -72,7 +53,6 @@
   .productCard .img{
     width: 35%;
     margin: 0 20px;
-    /* height: 400px;  */
   }
   .productCard .img div{
     background-color: #d5e3e560;
@@ -93,29 +73,14 @@
     justify-content: space-between;
   }
 
+  
   .testimonies{
-    display: flex;
-    gap: 5px;
-  }
-  .testimonies ul{
-    display: flex;
-  }
-  .testimonies ul li{
-    list-style: none;
-  }
-  .testimonies img{
-    width: 20px;
-    height: 20px;
-  }
-  .testimonies span{
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-left: 10px;
+    width: 100%;
+    height: 30px;
   }
   .productDetail .title{
     background-color: #d5e3e560;
-    /* width: 100%; */
+    width: 100%;
     height: 40px;
   }
   .description{
@@ -130,13 +95,19 @@
     height: 40px;
     margin-bottom: 10px;
   }
+  .btn-skeleton1{
+    background-color: #d5e3e560;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+  }
 
+  button{
+    visibility:hidden
+  }
   .btn {
     display: flex;
     gap: 20px;
-    /* background-color: #d5e3e560;
-    width: 50%;
-    height: 40px; */
   }
   .btn .buyNow {
     width: 300px;
