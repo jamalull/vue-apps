@@ -1,6 +1,6 @@
 
 <template>
-  <div class="men-bg"></div>
+  <div class="background" :class="background"></div>
   <div class="container">
     <div class="btn-left">
       <button @click="prevProduct">
@@ -35,12 +35,10 @@
           <p>{{ dataProduct[index]?.category }}</p>
           <div class="testimonies">
             <ul>
-              <!-- <li v-for="star in (Math.floor(dataProduct[index].rating.rate))" :key="star"> -->
             
               <li v-for="star in starsFilled" :key="star">
                 <img src="/star_filled.png" alt="star-image">
               </li>
-              <!-- <li v-if="dataProduct[index].rating.rate < 5" v-for="star in starsEmpty()" :key="star"> -->
               <li v-for="star in starsEmpty" :key="star">
                 <img src="/start_empty.png" alt="star-image-empty">
               </li>
@@ -54,13 +52,11 @@
         </div>
         <hr>
         <p class="description">
-          <!-- {{ dataProduct[index].description.substring(0,250) }}... -->
           {{ dataProduct[index]?.description }}
         </p>
         <hr>
         <h2>${{ dataProduct[index]?.price }}</h2>
         <div class="btn">
-          <!-- <button class="buyNow"  @click="prevProduct">Buy Now</button> -->
           <button class="buyNow">Buy Now</button>
           <button class="share">
             <svg
@@ -88,16 +84,10 @@
     </div>
 
   </div>
-  <!-- <div>
-    <br> <br>
-    {{ dataWomen[index] }} <br> <br>
-    <h1>Index Product ke : {{ index }}</h1>
-  </div>
-  <button @click="nextProduct">NEXT PRODUCT</button> -->
 </template>
 
 <script setup lang="ts">
-  import {onMounted, ref, computed} from 'vue';
+  import {onMounted, ref} from 'vue';
   import LoadingScreen from './LoadingScreen.vue';
   import UnvailableProduct from './UnvailableProduct.vue';
 
@@ -117,6 +107,9 @@
   const dataProduct = ref<Product[]>([]);
   const index = ref<number>(0);
   const isLoading = ref<boolean>(true);
+  const starsFilled = ref<number>(0);
+  const starsEmpty = ref<number>(0);
+  const background = ref<string>('');
 
   const getDataClothing = async () => {
     const api = await fetch("https://fakestoreapi.com/products/");
@@ -137,6 +130,8 @@
       if(index.value > dataProduct.value.length - 1){
         index.value = 0;
       }
+      stars();
+      setBackground();
       isLoading.value = false;
     }, 1000)
   }
@@ -148,19 +143,41 @@
       if(index.value < 0){
         index.value = dataProduct.value.length - 1;
       }
+      stars();
+      setBackground();
       isLoading.value = false;
     }, 1000)
   }
 
-  const starsFilled = computed(() =>{
-    return Math.floor(dataProduct.value[index.value].rating.rate);
-  })
-
-  const starsEmpty = computed(() =>{
-    if(Math.floor(dataProduct.value[index.value].rating.rate) < 5){
-      return 5 - Math.floor(dataProduct.value[index.value].rating.rate);
+  const setBackground = () => {
+    if(dataProduct.value[index.value]?.category === "men's clothing"){
+      background.value = "men-bg";
     }
-  })
+    else if(dataProduct.value[index.value]?.category === "women's clothing"){
+      background.value = "women-bg";
+    } 
+    else {
+      background.value = "unvailable-bg";
+    }
+  }
+
+  const stars =() => {
+    starsFilled.value = Math.floor(dataProduct.value[index.value].rating.rate);
+
+    if(starsFilled.value < 5){
+      starsEmpty.value = 5 - starsFilled.value;
+    }
+  }
+
+  // const starsFilled = computed(() =>{
+  //   return Math.floor(dataProduct.value[index.value].rating.rate);
+  // })
+
+  // const starsEmpty = computed(() =>{
+  //   if(Math.floor(dataProduct.value[index.value].rating.rate) < 5){
+  //     return 5 - Math.floor(dataProduct.value[index.value].rating.rate);
+  //   }
+  // })
 
   onMounted(() => {
     getDataClothing();
@@ -182,7 +199,7 @@
     0 100px 80px rgba(0, 0, 0, 0.12);
     background-color: #fff;
   }
-  .men-bg{
+  .background{
   position: absolute;
   top: 0;
   left: 0;
@@ -190,9 +207,18 @@
   bottom: 0;
   width: 100%;
   height: 50vh;
-  background-color: aquamarine;
+  background-color: #d5e3e560;
   z-index: -99;
 }
+  .men-bg{
+    background-color: rgb(153, 127, 255);
+  }
+  .women-bg{
+    background-color: rgb(255, 127, 204);
+  }
+  .unvailable-bg{
+    background-color: #d5e3e560;
+  }
   .productCard{
     justify-content: center;
     align-items: center;
